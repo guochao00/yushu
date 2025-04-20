@@ -28,14 +28,13 @@ jobs:
         run: buildozer -v android debug
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.2 # 使用指定的版本号
         with:
           name: my-apk # 更通用的artifact名称
           # 使用通配符确保即使文件名略有变化也能上传
           path: bin/*.apk  
-          # 如果apk在其他目录，请修改此路径，例如：bin/ProjectName-*-debug.apk
 
 
-      - name: Debug List Files (Optional)  # 用于调试，查看bin目录下的文件
+      - name: Debug List Files (Optional) # 用于调试，查看bin目录下的文件
         run: ls -la bin/
 

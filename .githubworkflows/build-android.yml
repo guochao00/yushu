@@ -1,0 +1,38 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ] # 或者你的主分支名称
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' # 或你的 Python 版本
+
+    - 名称: 安装依赖项
+      运行： |
+        sudo apt-get update
+        sudo apt-get install -y python3 python3-pip build-essential git python3-dev ffmpeg libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev
+        sudo apt-get install -y libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good
+        sudo apt-get install -y openjdk-11-jdk autoconf automake libtool libffi-dev libssl-dev
+        sudo apt-get install -y cython patch make
+        pip install --upgrade pip
+        pip install buildozer kivy pillow
+
+    - 名称: 生成调试版APK
+      运行： buildozer -v android debug
+      
+    - 名称: 上传 APK 构建产物
+      使用：actions/upload-artifact@v3
+      和：
+        名称: app-debug.apk
+        路径: bin/app-debug.apk # 或你的 APK 输出路径
+
+
